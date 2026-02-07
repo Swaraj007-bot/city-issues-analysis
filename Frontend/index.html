@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart City Problem Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Smart City Problem Tracker</h1>
+
+<select id="areaSelect">
+    <option value="">Select Area</option>
+</select>
+
+<table>
+    <thead>
+        <tr>
+            <th>Issue Type</th>
+            <th>Area</th>
+            <th>Severity</th>
+            <th>Date</th>
+        </tr>
+    </thead>
+    <tbody id="issueTable"></tbody>
+</table>
+
+<script>
+fetch("http://127.0.0.1:5000/issues")
+.then(res => res.json())
+.then(data => {
+    const table = document.getElementById("issueTable");
+    const areaSelect = document.getElementById("areaSelect");
+    let areas = new Set();
+
+    data.forEach(issue => {
+        areas.add(issue.area);
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${issue.issue_type}</td>
+            <td>${issue.area}</td>
+            <td class="${issue.severity.toLowerCase()}">${issue.severity}</td>
+            <td>${issue.date}</td>
+        `;
+        table.appendChild(row);
+    });
+
+    areas.forEach(area => {
+        const opt = document.createElement("option");
+        opt.value = area;
+        opt.textContent = area;
+        areaSelect.appendChild(opt);
+    });
+});
+</script>
+
+</body>
+</html>
