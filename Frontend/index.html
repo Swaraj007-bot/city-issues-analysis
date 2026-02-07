@@ -1,67 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart City Issue System</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
 <body>
 
-<div class="container">
-    <h1>🏙 Smart City Problem Tracker</h1>
+<!-- ========== REGISTRATION ========== -->
+<section class="page active" id="registerPage">
+    <div class="center">
+        <div class="card">
+            <h2>Citizen Registration</h2>
+            <p class="info">
+                Smart City Issue System – Hadapsar.
+                Report problems like garbage, roads, water & street lights.
+            </p>
 
-    <div class="controls">
-        <select id="areaSelect">
-            <option value="">📍 Select Area</option>
-        </select>
+            <input type="text" placeholder="Full Name">
+            <input type="text" placeholder="Email / Mobile">
+
+            <button class="btn" onclick="showDashboard()">Register</button>
+        </div>
     </div>
+</section>
 
-    <div class="table-card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Issue Type</th>
-                    <th>Area</th>
-                    <th>Severity</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody id="issueTable"></tbody>
-        </table>
+<!-- ========== DASHBOARD ========== -->
+<section class="page" id="dashboardPage">
+    <div class="app">
+
+        <aside class="sidebar">
+            <h2>Smart City</h2>
+            <a onclick="showDashboard()"><i class="fa fa-home"></i> Home</a>
+            <a onclick="showIssues()"><i class="fa fa-circle-exclamation"></i> Raise Issue</a>
+            <a onclick="showHistory()"><i class="fa fa-clock"></i> History</a>
+            <a onclick="logout()"><i class="fa fa-sign-out-alt"></i> Logout</a>
+        </aside>
+
+        <main class="content">
+            <h1>Welcome Citizen 👋</h1>
+            <p>Completed tasks in Hadapsar area</p>
+
+            <!-- Dashboard Images -->
+            <div class="dashboard-images">
+                <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952">
+                <img src="https://images.unsplash.com/photo-1597764699514-32a9e2e8e8bb">
+                <img src="https://images.unsplash.com/photo-1581092919534-09d7b9d1d9a4">
+            </div>
+
+            <button class="btn" onclick="showIssues()">Raise New Issue</button>
+        </main>
+
     </div>
-</div>
+</section>
 
-<script>
-fetch("http://127.0.0.1:5000/issues")
-.then(res => res.json())
-.then(data => {
-    const table = document.getElementById("issueTable");
-    const areaSelect = document.getElementById("areaSelect");
-    let areas = new Set();
+<!-- ========== ISSUE PAGE ========== -->
+<section class="page" id="issuesPage">
+    <div class="center">
+        <div class="card">
+            <h2>Report Issue</h2>
 
-    function renderRows(filterArea = "") {
-        table.innerHTML = "";
-        data.forEach(issue => {
-            if (filterArea && issue.area !== filterArea) return;
+            <input type="text" id="name" placeholder="Name">
 
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${issue.issue_type}</td>
-                <td>${issue.area}</td>
-                <td><span class="badge ${issue.severity.toLowerCase()}">${issue.severity}</span></td>
-                <td>${issue.date}</td>
-            `;
-            table.appendChild(row);
-        });
-    }
+            <!-- Contact Number -->
+            <input type="tel" id="contact" placeholder="Contact Number"
+                   maxlength="10"
+                   oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-    data.forEach(issue => areas.add(issue.area));
-    areas.forEach(area => {
-        const opt = document.createElement("option");
-        opt.value = area;
-        opt.textContent = area;
-        areaSelect.appendChild(opt);
-    });
+            <select id="issueType">
+                <option value="">Select Issue</option>
+                <option>Water Problem</option>
+                <option>Pothole</option>
+                <option>Garbage</option>
+                <option>Street Light</option>
+            </select>
 
-    areaSelect.addEventListener("change", () => {
-        renderRows(areaSelect.value);
-    });
+            <!-- Location -->
+            <input type="text" id="location" placeholder="Select Location (Hadapsar)">
+            <div id="suggestions"></div>
 
-    renderRows();
-});
-</script>
+            <button class="btn" onclick="submitIssue()">Submit Issue</button>
+        </div>
+    </div>
+</section>
 
+<!-- ========== SUCCESS ========== -->
+<section class="page" id="successPage">
+    <div class="center">
+        <div class="card success">
+            <h2>✅ Issue Submitted</h2>
+            <p>Your issue is saved successfully.</p>
+            <button class="btn" onclick="showDashboard()">Go Dashboard</button>
+        </div>
+    </div>
+</section>
+
+<!-- ========== HISTORY ========== -->
+<section class="page" id="historyPage">
+    <div class="center">
+        <div class="card">
+            <h2>Issue History</h2>
+            <div id="historyList"></div>
+            <button class="btn" onclick="showDashboard()">Back</button>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
 </body>
+</html>
