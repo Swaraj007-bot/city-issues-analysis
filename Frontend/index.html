@@ -1,30 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Smart City Problem Tracker</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-
 <body>
 
-<h1>Smart City Problem Tracker</h1>
+<div class="container">
+    <h1>🏙 Smart City Problem Tracker</h1>
 
-<select id="areaSelect">
-    <option value="">Select Area</option>
-</select>
+    <div class="controls">
+        <select id="areaSelect">
+            <option value="">📍 Select Area</option>
+        </select>
+    </div>
 
-<table>
-    <thead>
-        <tr>
-            <th>Issue Type</th>
-            <th>Area</th>
-            <th>Severity</th>
-            <th>Date</th>
-        </tr>
-    </thead>
-    <tbody id="issueTable"></tbody>
-</table>
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Issue Type</th>
+                    <th>Area</th>
+                    <th>Severity</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody id="issueTable"></tbody>
+        </table>
+    </div>
+</div>
 
 <script>
 fetch("http://127.0.0.1:5000/issues")
@@ -34,26 +32,36 @@ fetch("http://127.0.0.1:5000/issues")
     const areaSelect = document.getElementById("areaSelect");
     let areas = new Set();
 
-    data.forEach(issue => {
-        areas.add(issue.area);
-        const row = document.createElement("tr");
-        row.innerHTML = `
-            <td>${issue.issue_type}</td>
-            <td>${issue.area}</td>
-            <td class="${issue.severity.toLowerCase()}">${issue.severity}</td>
-            <td>${issue.date}</td>
-        `;
-        table.appendChild(row);
-    });
+    function renderRows(filterArea = "") {
+        table.innerHTML = "";
+        data.forEach(issue => {
+            if (filterArea && issue.area !== filterArea) return;
 
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${issue.issue_type}</td>
+                <td>${issue.area}</td>
+                <td><span class="badge ${issue.severity.toLowerCase()}">${issue.severity}</span></td>
+                <td>${issue.date}</td>
+            `;
+            table.appendChild(row);
+        });
+    }
+
+    data.forEach(issue => areas.add(issue.area));
     areas.forEach(area => {
         const opt = document.createElement("option");
         opt.value = area;
         opt.textContent = area;
         areaSelect.appendChild(opt);
     });
+
+    areaSelect.addEventListener("change", () => {
+        renderRows(areaSelect.value);
+    });
+
+    renderRows();
 });
 </script>
 
 </body>
-</html>

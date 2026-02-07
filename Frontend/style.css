@@ -1,0 +1,114 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", Arial, sans-serif;
+    background: linear-gradient(135deg, #1d2671, #c33764);
+    min-height: 100vh;
+    padding: 30px;
+    color: #fff;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+select {
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: rgba(255,255,255,0.9);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+select:hover {
+    transform: scale(1.05);
+}
+
+.table-card {
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    background: rgba(0,0,0,0.4);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+td {
+    padding: 14px;
+    background: rgba(255,255,255,0.08);
+}
+
+tr {
+    transition: 0.3s;
+}
+
+tr:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.01);
+}
+
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+}
+
+/* Severity Colors */
+.low {
+    background: linear-gradient(45deg, #00b09b, #96c93d);
+    box-shadow: 0 0 10px #00ffcc;
+}
+
+.medium {
+    background: linear-gradient(45deg, #f7971e, #ffd200);
+    box-shadow: 0 0 10px #ffd200;
+}
+
+.high {
+    background: linear-gradient(45deg, #ff416c, #ff4b2b);
+    box-shadow: 0 0 12px #ff4b2b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    th, td {
+        font-size: 14px;
+    }
+}
